@@ -17,6 +17,8 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+let posts = [];
+
 app.get("/", function(req, res){
     res.render("home", {homeStartingContent: homeStartingContent});
 });
@@ -38,6 +40,8 @@ app.post("/compose", function(req, res){
         title: req.body.titleText,
         content: req.body.postText
     };
+    posts.push(composedAnswers);
+    res.redirect("/");
 });
 
 
