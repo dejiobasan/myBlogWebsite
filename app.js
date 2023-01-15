@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const _ = require("lodash");
 
 const port = 3000;
 
@@ -47,22 +48,18 @@ app.post("/compose", function(req, res){
 });
 
 app.get("/posts/:postName", function(req, res){
-    const requestTitle = req.params.postName;
+    const requestTitle = _.lowerCase(req.params.postName);
     posts.forEach(function(post){
-        const storedTitle = post.title;
+        const storedTitle = _.lowerCase(post.title);
         if (storedTitle === requestTitle) {
-            console.log("Match Found!");
-        }
-        else {
-            console.log("Match not found, Try again!");
+            res.render("post", {
+                title: post.title,
+                content: post.content
+            });
         }
     });
     
 });
-
-
-
-
 
 app.listen(port, function() {
   console.log("Server started on port 3000");
